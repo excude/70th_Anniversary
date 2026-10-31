@@ -30,6 +30,8 @@
   <meta name="twitter:image" content="./og-image.png">
 
   <meta name="claude:viewport-fit-sides" content="cover">
+  <link rel="preconnect" href="https://www.google.com">
+  <link rel="preconnect" href="https://maps.gstatic.com" crossorigin>
 
   <style>
     /* Original image stays intact; decoration and directions are HTML layers. */
@@ -321,19 +323,17 @@
     .ambient-light::before, .ambient-light::after {
       content: "";
       position: absolute;
-      inset: -25%;
+      inset: -12%;
       will-change: transform;
     }
     .ambient-light::before {
       background:
         radial-gradient(ellipse at 12% 35%, #e2b66f32, transparent 34%),
         radial-gradient(ellipse at 88% 65%, #d2af7429, transparent 32%);
-      filter: blur(24px);
       animation: ambient-drift 22s ease-in-out infinite alternate;
     }
     .ambient-light::after {
       background: linear-gradient(115deg, transparent 28%, #e6c88c08 38%, #edcf9d12 40%, transparent 51%, #c4a0620a 64%, transparent 75%);
-      filter: blur(16px);
       transform-origin: 50% 0;
       animation: light-veil 30s ease-in-out infinite alternate;
     }
@@ -345,6 +345,9 @@
       z-index: 0;
       pointer-events: none;
     }
+    /* Stable height avoids rebuilding the full background as mobile browser bars move. */
+    #celebration-sky, .ambient-light { height: 100lvh; }
+    .celebration-canvas { contain: layout paint style; }
     .card .card-glitter {
       position: absolute;
       z-index: 1;
@@ -466,7 +469,7 @@
       <p class="venue-name">채빛퀴진 <small>채빛섬 2층</small></p>
       <p class="venue-address">서울특별시 서초구 올림픽대로 2085-14</p>
       <div class="venue-map">
-        <iframe title="채빛퀴진이 위치한 세빛섬 약도" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3164.8274798712528!2d126.9908473762948!3d37.51198692725336!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca1802c333b2f%3A0x80da7a424e905385!2z7IS467mb7ISs!5e0!3m2!1sko!2skr!4v1753663382080!5m2!1sko!2skr" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <iframe title="채빛퀴진이 위치한 세빛섬 약도" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3164.8274798712528!2d126.9908473762948!3d37.51198692725336!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca1802c333b2f%3A0x80da7a424e905385!2z7IS467mb7ISs!5e0!3m2!1sko!2skr!4v1753663382080!5m2!1sko!2skr" loading="eager" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
       <p class="map-credit">세빛섬 위치 안내 · <a href="https://www.somesevit.com/kr/company/location.do" target="_blank" rel="noopener">공식 오시는 길</a><br>지도가 표시되지 않으면 아래 지도 버튼을 이용해 주세요.</p>
       <div class="map-buttons-grid">
@@ -638,6 +641,7 @@ function makeParticle(layer: GoldLayer): GoldParticle {
 }
 function resizeGoldLayer(layer: GoldLayer): void {
   const bounds = layer.canvas.getBoundingClientRect();
+  if (layer.particles.length && Math.abs(layer.width - bounds.width) < 1 && Math.abs(layer.height - bounds.height) < 1) return;
   layer.width = bounds.width;
   layer.height = bounds.height;
   const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.75);
@@ -649,6 +653,25 @@ function resizeGoldLayer(layer: GoldLayer): void {
     : Math.round(Math.min(160, Math.max(48, bounds.width * bounds.height / 8500)));
   layer.particles = Array.from({ length: count }, () => makeParticle(layer));
 }
+// Cache the two light textures once; drawImage keeps scrolling light on the main thread.
+function makeGoldSprite(kind: 'dust' | 'bokeh'): HTMLCanvasElement {
+  const sprite = document.createElement('canvas');
+  sprite.width = sprite.height = 96;
+  const ctx = sprite.getContext('2d');
+  if (!ctx) return sprite;
+  const glow = ctx.createRadialGradient(48, 48, 0, 48, 48, 48);
+  glow.addColorStop(0, kind === 'bokeh' ? '#ffe5aa' : '#fff0cc');
+  glow.addColorStop(kind === 'bokeh' ? .25 : .15, kind === 'bokeh' ? '#e2b56c99' : '#f3d195c0');
+  glow.addColorStop(1, '#d3ae7200');
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, 96, 96);
+  if (kind === 'dust') {
+    ctx.fillStyle = '#fff0ce';
+    ctx.beginPath(); ctx.arc(48, 48, 5.28, 0, Math.PI * 2); ctx.fill();
+  }
+  return sprite;
+}
+const goldSprites = { dust: makeGoldSprite('dust'), bokeh: makeGoldSprite('bokeh') };
 function drawGoldLayer(layer: GoldLayer, seconds: number): void {
   if (!layer.visible || layer.width < 1) return;
   const ctx = layer.context;
@@ -656,8 +679,8 @@ function drawGoldLayer(layer: GoldLayer, seconds: number): void {
   ctx.globalCompositeOperation = 'lighter';
   for (const particle of layer.particles) {
     if (seconds > 0) {
-      particle.y -= particle.speed * seconds;
-      if (particle.y < -24) particle.y = layer.height + 24;
+      particle.y += particle.speed * seconds;
+      if (particle.y > layer.height + 24) particle.y = -24;
     }
     const phase = elapsed * (.45 + particle.depth * .3) + particle.phase;
     const brightness = .3 + .7 * Math.pow((Math.sin(phase) + 1) * .5, 2);
@@ -668,22 +691,10 @@ function drawGoldLayer(layer: GoldLayer, seconds: number): void {
     const alpha = particle.glow * brightness;
     if (particle.kind === 'bokeh') {
       ctx.globalAlpha = alpha * (layer.edgeOnly ? .20 : .25);
-      const glow = ctx.createRadialGradient(x, y, 0, x, y, radius * 2);
-      glow.addColorStop(0, '#ffe5aa');
-      glow.addColorStop(.25, '#e2b56c99');
-      glow.addColorStop(1, '#d3ae7200');
-      ctx.fillStyle = glow;
-      ctx.beginPath(); ctx.arc(x, y, radius * 2, 0, Math.PI * 2); ctx.fill();
+      ctx.drawImage(goldSprites.bokeh, x - radius * 2, y - radius * 2, radius * 4, radius * 4);
     } else {
       ctx.globalAlpha = alpha * (layer.edgeOnly ? .9 : .85);
-      const halo = ctx.createRadialGradient(x, y, 0, x, y, radius * 5);
-      halo.addColorStop(0, '#fff0cc');
-      halo.addColorStop(.15, '#f3d195c0');
-      halo.addColorStop(1, '#d6a55500');
-      ctx.fillStyle = halo;
-      ctx.fillRect(x - radius * 5, y - radius * 5, radius * 10, radius * 10);
-      ctx.fillStyle = '#fff0ce';
-      ctx.beginPath(); ctx.arc(x, y, radius * .55, 0, Math.PI * 2); ctx.fill();
+      ctx.drawImage(goldSprites.dust, x - radius * 5, y - radius * 5, radius * 10, radius * 10);
       if (particle.kind === 'glint' && brightness > .7) {
         ctx.globalAlpha = (brightness - .7) * .9;
         ctx.fillStyle = '#ffecc3';
@@ -781,6 +792,7 @@ function makeParticle(layer           )               {
 }
 function resizeGoldLayer(layer           )       {
   const bounds = layer.canvas.getBoundingClientRect();
+  if (layer.particles.length && Math.abs(layer.width - bounds.width) < 1 && Math.abs(layer.height - bounds.height) < 1) return;
   layer.width = bounds.width;
   layer.height = bounds.height;
   const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.75);
@@ -792,6 +804,25 @@ function resizeGoldLayer(layer           )       {
     : Math.round(Math.min(160, Math.max(48, bounds.width * bounds.height / 8500)));
   layer.particles = Array.from({ length: count }, () => makeParticle(layer));
 }
+// Cache the two light textures once; drawImage keeps scrolling light on the main thread.
+function makeGoldSprite(kind                  )                    {
+  const sprite = document.createElement('canvas');
+  sprite.width = sprite.height = 96;
+  const ctx = sprite.getContext('2d');
+  if (!ctx) return sprite;
+  const glow = ctx.createRadialGradient(48, 48, 0, 48, 48, 48);
+  glow.addColorStop(0, kind === 'bokeh' ? '#ffe5aa' : '#fff0cc');
+  glow.addColorStop(kind === 'bokeh' ? .25 : .15, kind === 'bokeh' ? '#e2b56c99' : '#f3d195c0');
+  glow.addColorStop(1, '#d3ae7200');
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, 96, 96);
+  if (kind === 'dust') {
+    ctx.fillStyle = '#fff0ce';
+    ctx.beginPath(); ctx.arc(48, 48, 5.28, 0, Math.PI * 2); ctx.fill();
+  }
+  return sprite;
+}
+const goldSprites = { dust: makeGoldSprite('dust'), bokeh: makeGoldSprite('bokeh') };
 function drawGoldLayer(layer           , seconds        )       {
   if (!layer.visible || layer.width < 1) return;
   const ctx = layer.context;
@@ -799,8 +830,8 @@ function drawGoldLayer(layer           , seconds        )       {
   ctx.globalCompositeOperation = 'lighter';
   for (const particle of layer.particles) {
     if (seconds > 0) {
-      particle.y -= particle.speed * seconds;
-      if (particle.y < -24) particle.y = layer.height + 24;
+      particle.y += particle.speed * seconds;
+      if (particle.y > layer.height + 24) particle.y = -24;
     }
     const phase = elapsed * (.45 + particle.depth * .3) + particle.phase;
     const brightness = .3 + .7 * Math.pow((Math.sin(phase) + 1) * .5, 2);
@@ -811,22 +842,10 @@ function drawGoldLayer(layer           , seconds        )       {
     const alpha = particle.glow * brightness;
     if (particle.kind === 'bokeh') {
       ctx.globalAlpha = alpha * (layer.edgeOnly ? .20 : .25);
-      const glow = ctx.createRadialGradient(x, y, 0, x, y, radius * 2);
-      glow.addColorStop(0, '#ffe5aa');
-      glow.addColorStop(.25, '#e2b56c99');
-      glow.addColorStop(1, '#d3ae7200');
-      ctx.fillStyle = glow;
-      ctx.beginPath(); ctx.arc(x, y, radius * 2, 0, Math.PI * 2); ctx.fill();
+      ctx.drawImage(goldSprites.bokeh, x - radius * 2, y - radius * 2, radius * 4, radius * 4);
     } else {
       ctx.globalAlpha = alpha * (layer.edgeOnly ? .9 : .85);
-      const halo = ctx.createRadialGradient(x, y, 0, x, y, radius * 5);
-      halo.addColorStop(0, '#fff0cc');
-      halo.addColorStop(.15, '#f3d195c0');
-      halo.addColorStop(1, '#d6a55500');
-      ctx.fillStyle = halo;
-      ctx.fillRect(x - radius * 5, y - radius * 5, radius * 10, radius * 10);
-      ctx.fillStyle = '#fff0ce';
-      ctx.beginPath(); ctx.arc(x, y, radius * .55, 0, Math.PI * 2); ctx.fill();
+      ctx.drawImage(goldSprites.dust, x - radius * 5, y - radius * 5, radius * 10, radius * 10);
       if (particle.kind === 'glint' && brightness > .7) {
         ctx.globalAlpha = (brightness - .7) * .9;
         ctx.fillStyle = '#ffecc3';
