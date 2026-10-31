@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>장봉래 님의 고희연 초대장</title>
+
+  <!-- ========================================================
+       [카카오톡 / SNS 공유용 오픈그래프(Open Graph, OG) 메타태그]
+       * 카카오톡에 링크를 보냈을 때 대표 사진과 제목, 일시가 카드 형태로 예쁘게 뜹니다.
+       ======================================================== -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:site_name" content="고희연 초대장">
+  <meta property="og:title" content="장봉래 님의 고희연 초대장">
+  <meta property="og:description" content="2026년 11월 22일(일) 오전 11:00 / 채빛퀴진 (채빛섬 2층). 뜻깊은 자리에 소중한 분들을 모십니다.">
+  
+  <!-- 대표 썸네일 이미지 (카카오톡 최적화 1200x630 비율) -->
+  <!-- GitHub Pages 배포 후 생성된 주소(예: https://아이디.github.io/저장소명/og-image.png)로 수정하시면 완벽합니다 -->
+  <meta property="og:image" content="./og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="장봉래 님의 고희연 초대장">
+  <meta property="og:url" content="./">
+
+  <!-- 트위터 및 기타 메신저 카드 -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="장봉래 님의 고희연 초대장">
+  <meta name="twitter:description" content="2026년 11월 22일(일) 오전 11:00 / 채빛퀴진 (채빛섬 2층)">
+  <meta name="twitter:image" content="./og-image.png">
+
+  <meta name="claude:viewport-fit-sides" content="cover">
+
+  <style>
+    /* Original image stays intact; decoration and directions are HTML layers. */
+    :root {
+      --bg: #0b1a3a;
+      --fg: #ffffff;
+      --gold: #d3ae72;
+      --navy: #12234b;
+      --underline: #e6c88c;
+      color-scheme: dark;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      background: var(--bg);
+      margin: 0;
+      color: var(--fg);
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+      padding-block: 16px;
+      padding-left: max(16px, env(safe-area-inset-left, 0px));
+      padding-right: max(16px, env(safe-area-inset-right, 0px));
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    /* 원본 초대장 카드 영역 */
+    .card {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1024 / 1536;
+      container-type: inline-size;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(211, 174, 114, 0.3);
+    }
+
+    .card img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      object-fit: cover;
+    }
+
+    /* 오시는 길 링크 오버레이 (원본 위치 및 스타일 100% 보존) */
+    .card a.location-link {
+      z-index: 2;
+      position: absolute;
+      left: 11.38cqw;
+      top: 81.12%;
+      transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+      gap: 2.15cqw;
+      white-space: nowrap;
+      text-decoration: none;
+      font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      padding: 1cqw 0;
+    }
+
+    .card .pill {
+      box-sizing: border-box;
+      width: 12.11cqw;
+      height: 4.3cqw;
+      background: var(--gold);
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 2.44cqw;
+      border-radius: 99cqw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .card .url {
+      font-size: 2.54cqw;
+      color: var(--fg);
+      text-decoration: underline;
+      text-decoration-color: var(--underline);
+      text-underline-offset: .25em;
+    }
+
+    .card a.location-link:hover .pill {
+      background: var(--underline);
+      transform: scale(1.05);
+    }
+
+    .card a.location-link:hover .url,
+    .card a.location-link:active .url,
+    .card a.location-link:focus-visible .url {
+      color: var(--underline);
+    }
+
+    .card a.location-link:focus-visible {
+      outline: 2px solid var(--underline);
+      outline-offset: 2px;
+    }
+
+    /* 모바일 하단 편의 버튼 (공유 / 지도 바로가기) */
+    .action-panel {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 0 4px;
+    }
+
+    .map-buttons-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btn-secondary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: rgba(18, 35, 75, 0.85);
+      border: 1px solid var(--gold);
+      color: var(--underline);
+      padding: 12px 14px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(30, 55, 110, 0.95);
+      border-color: #fff;
+      color: #fff;
+    }
+
+    .btn-share {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #FEE500;
+      color: #191919;
+      padding: 14px;
+      border-radius: 10px;
+      border: none;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(254, 229, 0, 0.3);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .btn-share:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(254, 229, 0, 0.4);
+    }
+
+    .btn-share:active {
+      transform: translateY(0);
+    }
+
+    /* 복사 토스트 */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(211, 174, 114, 0.95);
+      color: var(--navy);
+      padding: 10px 22px;
+      border-radius: 24px;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    #toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .footer-note {
+      text-align: center;
+      font-size: 12px;
+      color: #798ba7;
+      margin-top: 14px;
+      line-height: 1.5;
+    }
+
+    /* Champagne light and fine gold dust: continuous motion, no flashing. */
+    .ambient-light {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse at 0% 15%, #b78b4820, transparent 48%),
+        radial-gradient(ellipse at 100% 78%, #b78b4818, transparent 42%);
+    }
+    .ambient-light::before {
+      content: "";
+      position: absolute;
+      inset: -10%;
+      background:
+        radial-gradient(ellipse at 14% 35%, #d3ae7217, transparent 35%),
+        radial-gradient(ellipse at 92% 65%, #e8cda516, transparent 32%);
+      animation: ambient-drift 28s ease-in-out infinite alternate;
+    }
+    .gold-dust {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+      border-radius: inherit;
+      /* Keep all moving light away from the portrait and the text. */
+      -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 5%, transparent 22%, transparent 78%, #000 95%, #000 100%);
+      mask-image: linear-gradient(90deg, #000 0%, #000 5%, transparent 22%, transparent 78%, #000 95%, #000 100%);
+    }
+    .gold-dust::before, .gold-dust::after {
+      content: "";
+      position: absolute;
+      inset: -30px -8px;
+      background-repeat: no-repeat;
+      animation: dust-drift 24s ease-in-out infinite alternate;
+    }
+    .gold-dust::before {
+      background-image:
+        radial-gradient(circle at 7% 9%, #f5dba8a0 0 .7px, transparent 1.6px),
+        radial-gradient(circle at 13% 23%, #e0be8280 0 .8px, transparent 1.8px),
+        radial-gradient(circle at 5% 38%, #f6dfb78c 0 .6px, transparent 1.4px),
+        radial-gradient(circle at 16% 49%, #dcb77780 0 .9px, transparent 2px),
+        radial-gradient(circle at 9% 64%, #f8e2bba0 0 .6px, transparent 1.5px),
+        radial-gradient(circle at 4% 79%, #dcb77780 0 .8px, transparent 1.8px),
+        radial-gradient(circle at 14% 92%, #f6dfb78c 0 .7px, transparent 1.5px),
+        radial-gradient(circle at 92% 14%, #f5dba89c 0 .7px, transparent 1.6px),
+        radial-gradient(circle at 86% 31%, #e0be8280 0 .8px, transparent 1.8px),
+        radial-gradient(circle at 96% 46%, #f6dfb78c 0 .6px, transparent 1.4px),
+        radial-gradient(circle at 89% 58%, #dcb77780 0 .9px, transparent 2px),
+        radial-gradient(circle at 94% 74%, #f8e2bb90 0 .6px, transparent 1.5px),
+        radial-gradient(circle at 85% 89%, #dcb77780 0 .8px, transparent 1.8px);
+      opacity: .65;
+    }
+    .gold-dust::after {
+      background-image:
+        radial-gradient(circle at 8% 20%, #e6c38b60, #e6c38b18 2px, transparent 5px),
+        radial-gradient(circle at 12% 57%, #e6c38b48, #e6c38b12 3px, transparent 7px),
+        radial-gradient(circle at 6% 87%, #e6c38b48, transparent 4px),
+        radial-gradient(circle at 91% 7%, #e6c38b48, transparent 4px),
+        radial-gradient(circle at 94% 37%, #e6c38b60, #e6c38b18 2px, transparent 5px),
+        radial-gradient(circle at 88% 81%, #e6c38b48, #e6c38b12 3px, transparent 7px);
+      filter: blur(.7px);
+      opacity: .5;
+      animation-duration: 32s;
+      animation-delay: -12s;
+      animation-direction: alternate-reverse;
+    }
+    /* A soft reflection travels along the frame, like light on gold foil. */
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      border-radius: inherit;
+      pointer-events: none;
+      background: linear-gradient(120deg, transparent 30%, #edd5a680 48%, #fff1d5b3 50%, #edd5a650 52%, transparent 70%);
+      background-size: 350% 350%;
+      padding: 1px;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      animation: foil-light 18s ease-in-out infinite;
+    }
+    @keyframes dust-drift {
+      from { transform: translate3d(-2px, 14px, 0); }
+      to { transform: translate3d(3px, -18px, 0); }
+    }
+    @keyframes ambient-drift {
+      from { transform: translate3d(-2%, -1%, 0); opacity: .5; }
+      to { transform: translate3d(2%, 3%, 0); opacity: .9; }
+    }
+    @keyframes foil-light {
+      0%, 18% { background-position: 100% 100%; opacity: 0; }
+      30% { opacity: .65; }
+      65% { opacity: .65; }
+      82%, 100% { background-position: 0% 0%; opacity: 0; }
+    }
+
+    .directions {
+      margin-top: 24px;
+      padding: 26px 22px 22px;
+      border: 1px solid #d3ae7255;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #142e50, #0d203e);
+      box-shadow: 0 12px 32px #0003;
+    }
+    .directions-eyebrow {
+      margin: 0 0 8px;
+      color: var(--gold);
+      font-size: 11px;
+      letter-spacing: .24em;
+    }
+    .directions h2 {
+      margin: 0;
+      color: #f4dfb9;
+      font-family: "Noto Serif KR", "Batang", serif;
+      font-size: 25px;
+      font-weight: 500;
+      letter-spacing: .06em;
+    }
+    .venue-name { margin: 18px 0 7px; font-size: 19px; font-weight: 600; }
+    .venue-name small { font-size: 13px; color: #c2cfe0; font-weight: 400; }
+    .venue-address { margin: 0; color: #c2cfe0; font-size: 14px; line-height: 1.8; }
+    .venue-map {
+      margin: 20px 0 10px;
+      overflow: hidden;
+      border: 1px solid #d3ae7255;
+      border-radius: 9px;
+      background: #e8eef0;
+    }
+    .venue-map iframe { display: block; width: 100%; height: 300px; border: 0; }
+    .map-credit { margin: 0 0 18px; font-size: 12px; line-height: 1.6; color: #a6b7ce; }
+    .map-credit a { color: #e6c88c; text-underline-offset: 3px; }
+    .travel-info { margin: 20px 0 0; padding-top: 18px; border-top: 1px solid #d3ae7233; }
+    .travel-info dt { margin: 0 0 6px; font-size: 14px; color: #e6c88c; font-weight: 600; }
+    .travel-info dd { margin: 0 0 14px; font-size: 13px; line-height: 1.8; color: #c2cfe0; }
+    .travel-info dd:last-child { margin-bottom: 0; }
+    @media (max-width: 400px) {
+      .directions { padding: 22px 16px 18px; }
+      .venue-name small { display: block; margin-top: 6px; }
+      .directions .map-buttons-grid { grid-template-columns: 1fr; }
+      .venue-map iframe { height: 260px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ambient-light, .gold-dust, .card::after { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-light" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <!-- 원본 초대장 카드 -->
+    <div class="card">
+      <img src="invitation_card.png" alt="장봉래 님의 고희연 초대장 - 2026년 11월 22일(일) 오전 11:00 채빛퀴진 (채빛섬 2층)">
+      <div class="gold-dust" aria-hidden="true"></div>
+      <a class="location-link" href="https://www.somesevit.com/kr/company/location.do" target="_blank" rel="noopener">
+        <span class="pill">오시는길</span>
+        <span class="url">https://www.somesevit.com/kr/company/location.do</span>
+      </a>
+    </div>
+
+    <section class="directions" aria-labelledby="directions-title">
+      <p class="directions-eyebrow">LOCATION</p>
+      <h2 id="directions-title">오시는 길</h2>
+      <p class="venue-name">채빛퀴진 <small>채빛섬 2층</small></p>
+      <p class="venue-address">서울특별시 서초구 올림픽대로 2085-14</p>
+      <div class="venue-map">
+        <iframe title="채빛퀴진이 위치한 세빛섬 약도" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3164.8274798712528!2d126.9908473762948!3d37.51198692725336!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca1802c333b2f%3A0x80da7a424e905385!2z7IS467mb7ISs!5e0!3m2!1sko!2skr!4v1753663382080!5m2!1sko!2skr" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      <p class="map-credit">세빛섬 위치 안내 · <a href="https://www.somesevit.com/kr/company/location.do" target="_blank" rel="noopener">공식 오시는 길</a><br>지도가 표시되지 않으면 아래 지도 버튼을 이용해 주세요.</p>
+      <div class="map-buttons-grid">
+        <a class="btn-secondary" href="https://map.naver.com/v5/search/%EC%B1%84%EB%B9%9B%ED%80%B4%EC%A7%84" target="_blank" rel="noopener">네이버 지도 열기 ↗</a>
+        <a class="btn-secondary" href="https://map.kakao.com/link/search/%EC%B1%84%EB%B9%9B%ED%80%B4%EC%A7%84" target="_blank" rel="noopener">카카오맵 열기 ↗</a>
+      </div>
+      <dl class="travel-info">
+        <dt>자동차로 오실 때</dt>
+        <dd>내비게이션에서 ‘세빛섬’ 또는<br>‘반포한강공원 제2주차장’을 검색해 주세요.<br>※ 잠수교 차량 통행이 불가하니 경로를 확인해 주세요.</dd>
+        <dt>대중교통으로 오실 때</dt>
+        <dd>지하철 3·7·9호선 고속터미널역 8-1번 출구<br>세빛섬 방면으로 이동해 주세요.</dd>
+      </dl>
+    </section>
+
+    <!-- 하단 편의 기능: 링크 공유 및 지도 내비게이션 -->
+    <div class="action-panel">
+      <button class="btn-share" onclick="shareInvitation()">
+        💬 카카오톡으로 초대장 링크 공유하기
+      </button>
+
+      <div class="footer-note">
+        2026년 11월 22일(일) 오전 11:00 · 채빛퀴진 (채빛섬 2층)<br>
+        소중한 분들을 정성으로 모시겠습니다.
+      </div>
+    </div>
+  </div>
+
+  <div id="toast">초대장 링크가 복사되었습니다!</div>
+
+  <script>
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    function shareInvitation() {
+      if (navigator.share) {
+        navigator.share({
+          title: '장봉래 님의 고희연 초대장',
+          text: '2026년 11월 22일(일) 오전 11:00 채빛퀴진(채빛섬 2층)에서 뵙겠습니다.',
+          url: window.location.href,
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+          showToast('초대장 링크가 복사되었습니다!');
+        }).catch(() => {
+          const t = document.createElement('textarea');
+          t.value = window.location.href;
+          document.body.appendChild(t);
+          t.select();
+          document.execCommand('copy');
+          document.body.removeChild(t);
+          showToast('초대장 링크가 복사되었습니다!');
+        });
+      }
+    }
+  </script>
+
+</body>
+</html>
